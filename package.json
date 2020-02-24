@@ -4,7 +4,8 @@
     "description": "mongodb backend for beerio-kart",
     "main": "index.js",
     "scripts": {
-        "build": "tsc",
+        "tsc": "tsc",
+        "postinstall": "npm run tsc",
         "watch-ts": "tsc -w",
         "watch-node": "nodemon dist/app.js",
         "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript, Node\" -c \"yello.bold, cyan.bold\" \"npm run watch-ts\" \"npm run watch-node\""
@@ -24,5 +25,8 @@
         "concurrently": "^5.1.0",
         "express": "^4.17.1",
         "nodemon": "^2.0.2"
+    },
+    "devDependencies": {
+        "typescript": "^3.8.2"
     }
 }
