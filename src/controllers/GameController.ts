@@ -1,15 +1,23 @@
 import { Request, Response } from "express";
-import Game, { IGame } from "../Game";
+import Game from "../Game";
 import DataPoint from "../DataPoint";
+import Player from "../Player";
 
-export const allGames = (req: Request, res: Response) => {
-    Game.find((err: any, games: IGame[]) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.send(games);
+export const allGames = async (req: Request, res: Response) => {
+    try {
+        const games = await Game.find().exec();
+        const gamedatalist = [];
+        for (const game of games) {
+            const players = await Player.find()
+                .where("_id")
+                .in(game.players)
+                .exec();
+            gamedatalist.push({ game, players });
         }
-    });
+        res.send(gamedatalist);
+    } catch (error) {
+        res.status(500).send(error);
+    }
 };
 
 export const getGame = (req: Request, res: Response) => {
@@ -21,6 +29,28 @@ export const getGame = (req: Request, res: Response) => {
         }
     });
 };
+
+export async function getGameData(req: Request, res: Response) {
+    try {
+        const game = await Game.findById(req.params.id).exec();
+        if (!game) {
+            res.status(400).send("Game not found for id " + req.params.id);
+            return;
+        }
+
+        const players = await Player.find()
+            .where("_id")
+            .in(game.players)
+            .exec();
+        const datapoints = await DataPoint.find()
+            .where("gameId")
+            .equals(game._id)
+            .exec();
+        res.send({ game, players, datapoints });
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
 
 export const deleteGame = (req: Request, res: Response) => {
     Game.deleteOne({ _id: req.params.id }, (err: any) => {
@@ -63,8 +93,6 @@ export const updateGame = (req: Request, res: Response) => {
 };
 
 export const addGame = (req: Request, res: Response) => {
-    console.log(req);
-    console.log(req.body);
     const game = new Game(req.body);
 
     game.save((err: any) => {

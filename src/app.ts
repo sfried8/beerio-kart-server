@@ -27,12 +27,13 @@ app.put("/player/:id", PlayerController.updatePlayer);
 app.delete("/player/:id", PlayerController.deletePlayer);
 
 app.get("/games", GameController.allGames);
-app.get("/game/:id", GameController.getGame);
+app.get("/game/:id", GameController.getGameData);
 app.post("/game", GameController.addGame);
+app.post("/updateHistory/:id", GameController.addHistoryToGame);
 app.put("/game/:id", GameController.updateGame);
 app.delete("/game/:id", GameController.deleteGame);
 
-app.get("/datapoints", DataPointController.allDataPoints);
+app.get("/datapoints", DataPointController.findDataPoints);
 app.get("/datapoint/:id", DataPointController.getDataPoint);
 app.post("/datapoint", DataPointController.addDataPoint);
 app.put("/datapoint/:id", DataPointController.updateDataPoint);
