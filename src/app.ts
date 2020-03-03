@@ -34,6 +34,7 @@ app.put("/game/:id", GameController.updateGame);
 app.delete("/game/:id", GameController.deleteGame);
 
 app.get("/datapoints", DataPointController.findDataPoints);
+app.delete("/datapoints", DataPointController.bulkDeleteDataPoints);
 app.get("/datapoint/:id", DataPointController.getDataPoint);
 app.post("/datapoint", DataPointController.addDataPoint);
 app.put("/datapoint/:id", DataPointController.updateDataPoint);

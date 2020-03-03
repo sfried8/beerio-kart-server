@@ -28,12 +28,27 @@ export const findDataPoints = async (req: Request, res: Response) => {
     if (req.query.player) {
         query = query.where("playerId").equals(req.query.player);
     }
+    if (req.query.course) {
+        query = query.where("course").equals(req.query.course);
+    }
     try {
         const datapoints = await query.exec();
         res.send(datapoints);
     } catch (error) {
         res.status(500).send(error);
     }
+};
+export const bulkDeleteDataPoints = (req: Request, res: Response) => {
+    DataPoint.deleteMany(
+        { _id: { $in: req.query.ids.split(",") } },
+        (err: any) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.send("Successfully Deleted DataPoints");
+            }
+        }
+    );
 };
 export const deleteDataPoint = (req: Request, res: Response) => {
     DataPoint.deleteOne({ _id: req.params.id }, (err: any) => {
