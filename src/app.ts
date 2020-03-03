@@ -18,7 +18,7 @@ app.use(cors());
 app.set("port", process.env.PORT || 4000);
 
 // API Endpoints
-app.get("/", (req: Request, res: Response) => res.send("hi"));
+app.get("/", (req: Request, res: Response) => res.send("Welcome"));
 
 app.get("/players", PlayerController.allPlayers);
 app.get("/player/:id", PlayerController.getPlayer);
@@ -40,6 +40,9 @@ app.post("/datapoint", DataPointController.addDataPoint);
 app.put("/datapoint/:id", DataPointController.updateDataPoint);
 app.delete("/datapoint/:id", DataPointController.deleteDataPoint);
 
-const server = app.listen(app.get("port"), () => {
-    console.log("App is running on http://localhost:%d", app.get("port"));
+const server = app.listen(process.env.PORT || 4000, () => {
+    console.log(
+        "App is running on http://localhost:%d",
+        process.env.PORT || 4000
+    );
 });
