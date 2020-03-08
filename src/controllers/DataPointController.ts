@@ -38,6 +38,7 @@ export const findDataPoints = async (req: Request, res: Response) => {
         res.status(500).send(error);
     }
 };
+
 export const bulkDeleteDataPoints = (req: Request, res: Response) => {
     DataPoint.deleteMany(
         { _id: { $in: req.query.ids.split(",") } },
@@ -74,7 +75,8 @@ export const updateDataPoint = (req: Request, res: Response) => {
     );
 };
 export const addDataPoint = (req: Request, res: Response) => {
-    const datapoint = new DataPoint(req.body);
+    const params = { ...req.body, date: new Date() };
+    const datapoint = new DataPoint(params);
 
     datapoint.save((err: any) => {
         if (err) {

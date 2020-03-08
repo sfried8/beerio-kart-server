@@ -21,7 +21,7 @@ app.set("port", process.env.PORT || 4000);
 app.get("/", (req: Request, res: Response) => res.send("Welcome"));
 
 app.get("/players", PlayerController.allPlayers);
-app.get("/player/:id", PlayerController.getPlayer);
+app.get("/player/:id", PlayerController.getPlayerData);
 app.post("/player", PlayerController.addPlayer);
 app.put("/player/:id", PlayerController.updatePlayer);
 app.delete("/player/:id", PlayerController.deletePlayer);
