@@ -11,6 +11,7 @@ export interface IDataPoint extends mongoose.Document {
     date?: Date;
     x: number;
     y: number;
+    r: number;
 }
 
 export const DataPointSchema = new mongoose.Schema({
@@ -19,7 +20,8 @@ export const DataPointSchema = new mongoose.Schema({
     course: { type: Number, required: false },
     date: { type: Date, required: false },
     x: { type: Number, required: true },
-    y: { type: Number, required: true }
+    y: { type: Number, required: true },
+    r: { type: Number, required: false }
 });
 
 const DataPoint = mongoose.model<IDataPoint>("DataPoint", DataPointSchema);
